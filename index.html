@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Web Multifungsi JS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    .section {
+      background: #666c65;
+      padding: 20px;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    input, select, button {
+      padding: 10px;
+      margin: 5px 0;
+      font-size: 16px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button {
+      background: #000000;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    button:hover {
+      background: #ffffff;
+    }
+    .output {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🔧 Web Multifungsi: Suhu, Kalkulator & Data KTP</h2>
+
+  <!-- KONVERSI SUHU -->
+  <div class="section">
+    <h3>🌡️ Konversi Suhu (Celcius)</h3>
+    <input type="number" id="celciusInput" placeholder="Masukkan suhu dalam °C">
+    <button onclick="konversiSuhu()">Konversi</button>
+    <div class="output" id="hasilSuhu"></div>
+  </div>
+
+  <!-- KALKULATOR SEDERHANA -->
+  <div class="section">
+    <h3>🧮 Kalkulator Sederhana</h3>
+    <input type="number" id="angka1" placeholder="Angka pertama">
+    <input type="number" id="angka2" placeholder="Angka kedua">
+    <select id="operator">
+      <option value="+">Tambah (+)</option>
+      <option value="-">Kurang (-)</option>
+      <option value="*">Kali (*)</option>
+      <option value="/">Bagi (/)</option>
+    </select>
+    <button onclick="hitung()">Hitung</button>
+    <div class="output" id="hasilKalkulator"></div>
+  </div>
+
+  <!-- FORM DATA KTP -->
+  <div class="section">
+    <h3>📝 Form Data KTP</h3>
+    <input type="text" id="nama" placeholder="Nama Lengkap">
+    <input type="text" id="nik" placeholder="NIK (16 digit)">
+    <input type="text" id="alamat" placeholder="Alamat">
+    <input type="text" id="kota" placeholder="Kota/Kabupaten">
+    <button onclick="tampilkanDataKTP()">Tampilkan Data</button>
+    <div class="output" id="hasilKTP"></div>
+  </div>
+
+  <script>
+    // Fungsi Konversi Suhu
+    function konversiSuhu() {
+      const c = parseFloat(document.getElementById("celciusInput").value);
+      if (isNaN(c)) {
+        document.getElementById("hasilSuhu").textContent = "Masukkan suhu yang valid!";
+        return;
+      }
+      const f = (c * 9/5) + 32;
+      const r = c * 4/5;
+      const k = c + 273.15;
+
+      document.getElementById("hasilSuhu").innerHTML = `
+        Fahrenheit: ${f.toFixed(2)} °F<br>
+        Reamur: ${r.toFixed(2)} °R<br>
+        Kelvin: ${k.toFixed(2)} K
+      `;
+    }
+
+    // Fungsi Kalkulator
+    function hitung() {
+      const angka1 = parseFloat(document.getElementById("angka1").value);
+      const angka2 = parseFloat(document.getElementById("angka2").value);
+      const operator = document.getElementById("operator").value;
+
+      if (isNaN(angka1) || isNaN(angka2)) {
+        document.getElementById("hasilKalkulator").textContent = "Mohon isi angka yang valid!";
+        return;
+      }
+
+      let hasil;
+      switch (operator) {
+        case '+': hasil = angka1 + angka2; break;
+        case '-': hasil = angka1 - angka2; break;
+        case '*': hasil = angka1 * angka2; break;
+        case '/':
+          if (angka2 === 0) {
+            document.getElementById("hasilKalkulator").textContent = "Tidak bisa dibagi nol!";
+            return;
+          }
+          hasil = angka1 / angka2;
+          break;
+        default:
+          hasil = 0;
+      }
+
+      document.getElementById("hasilKalkulator").textContent = `Hasil: ${hasil}`;
+    }
+
+    // Fungsi Tampilkan Data KTP
+    function tampilkanDataKTP() {
+      const nama = document.getElementById("nama").value;
+      const nik = document.getElementById("nik").value;
+      const alamat = document.getElementById("alamat").value;
+      const kota = document.getElementById("kota").value;
+
+      if (!nama || !nik || !alamat || !kota) {
+        document.getElementById("hasilKTP").textContent = "Lengkapi semua data!";
+        return;
+      }
+
+      if (nik.length !== 16 || isNaN(nik)) {
+        document.getElementById("hasilKTP").textContent = "NIK harus 16 digit angka!";
+        return;
+      }
+
+      document.getElementById("hasilKTP").innerHTML = `
+        Nama: ${nama}<br>
+        NIK: ${nik}<br>
+        Alamat: ${alamat}<br>
+        Kota: ${kota}
+      `;
+    }
+  </script>
+
+</body>
+</html>
